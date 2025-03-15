@@ -46,4 +46,25 @@ public class Lista<T> {
     public void setId(int id) {
         this.id = id;
     }
+    
+    // Create - Insertar elementos
+    public void insertarAlInicio(T elem) {
+        Nodo<T> nuevoNodo = new Nodo<>(elem);
+        nuevoNodo.setpNext(pFirst);
+        pFirst = nuevoNodo;
+    }
+
+    public void insertarAlFinal(T elem) {
+        Nodo<T> nuevoNodo = new Nodo<>(elem);
+        if (pFirst == null) {
+            pFirst = nuevoNodo;
+        } else {
+            Nodo<T> actual = pFirst;
+            while (actual.getpNext() != null) {
+                actual = actual.getpNext();
+            }
+            actual.setpNext(nuevoNodo);
+        }
+    }
+    
 }
