@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -23,6 +25,7 @@ public class GUI extends javax.swing.JFrame {
         initComponents();
         modelo = new DefaultTreeModel(new DefaultMutableTreeNode("raiz"));
         arbol.setModel(modelo);
+        showMovements.setText("");
         this.setLocationRelativeTo(null);
     }   
 
@@ -42,7 +45,7 @@ public class GUI extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
-        ShowMovements = new javax.swing.JTextArea();
+        showMovements = new javax.swing.JTextArea();
         selectNodo = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -94,9 +97,9 @@ public class GUI extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 50, 280, 210));
 
-        ShowMovements.setColumns(20);
-        ShowMovements.setRows(5);
-        jScrollPane3.setViewportView(ShowMovements);
+        showMovements.setColumns(20);
+        showMovements.setRows(5);
+        jScrollPane3.setViewportView(showMovements);
 
         getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 450, 330, 140));
         getContentPane().add(selectNodo, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 280, 160, -1));
@@ -152,6 +155,9 @@ public class GUI extends javax.swing.JFrame {
         DefaultMutableTreeNode n = new DefaultMutableTreeNode(texto);
         if (nodoSeleccionado != null){
             modelo.insertNodeInto(n, nodoSeleccionado, nodoSeleccionado.getChildCount());
+            agregarMensaje("Nodo creado: " + texto);
+        } else{
+            agregarMensaje("Error: No se ha seleccionado un nodo padre.");
         }
     }//GEN-LAST:event_btnCreateActionPerformed
 
@@ -165,15 +171,24 @@ public class GUI extends javax.swing.JFrame {
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
         if (nodoSeleccionado != null){
+            String texto = (String) nodoSeleccionado.getUserObject();
             modelo.removeNodeFromParent(nodoSeleccionado);
+            agregarMensaje("Nodo eliminado: " + texto);
+        }else{
+            agregarMensaje("Error: No se ha seleccionado un nodo para eliminar.");
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
         if (nodoSeleccionado != null){
+            String textoAnterior = (String) nodoSeleccionado.getUserObject();
+            String textoNuevo = this.selectNodo.getText();
             nodoSeleccionado.setUserObject(this.selectNodo.getText());
             modelo.nodeChanged(nodoSeleccionado);
+            agregarMensaje("Nodo actualizado: " + textoAnterior + " -> " + textoNuevo);
+        }else{
+            agregarMensaje("Error: No se ha seleccionado un nodo para actualizar.");
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
@@ -214,7 +229,6 @@ public class GUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea SD;
-    private javax.swing.JTextArea ShowMovements;
     private javax.swing.JTree arbol;
     private javax.swing.JButton btnCreate;
     private javax.swing.JButton btnDelete;
@@ -229,6 +243,18 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField selectNodo;
+    private javax.swing.JTextArea showMovements;
     private javax.swing.JSlider sizefile;
     // End of variables declaration//GEN-END:variables
+    private void agregarMensaje(String mensaje) {
+        String mensajeConHora = "[" + obtenerHoraActual() + "] " + mensaje;
+        showMovements.append(mensaje + "\n"); // Agrega el mensaje al JTextArea
+        showMovements.setCaretPosition(showMovements.getDocument().getLength()); // Desplaza el scroll al final
+    }
+    
+    private String obtenerHoraActual() {
+        LocalDateTime ahora = LocalDateTime.now(); // Obtiene la fecha y hora actual
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"); // Define el formato
+        return ahora.format(formatter); // Devuelve la hora formateada
+    }
 }
