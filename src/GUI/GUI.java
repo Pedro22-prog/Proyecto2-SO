@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import java.awt.Color;
 
 /**
  *
@@ -17,7 +18,7 @@ import javax.swing.tree.DefaultTreeModel;
 public class GUI extends javax.swing.JFrame {
     private DefaultTreeModel modelo;
     private DefaultMutableTreeNode nodoSeleccionado;
-    
+    private DefaultTableModel tableModel;
     /**
      * Creates new form GUI
      */
@@ -26,6 +27,13 @@ public class GUI extends javax.swing.JFrame {
         modelo = new DefaultTreeModel(new DefaultMutableTreeNode("raiz"));
         arbol.setModel(modelo);
         showMovements.setText("");
+        tableModel = new DefaultTableModel();
+        tableModel.addColumn("Nombre del archivo");
+        tableModel.addColumn("Bloques Asignados");
+        tableModel.addColumn("Direccion del primer bloque");
+        tableModel.addColumn("Color");
+        jTable1.setModel(tableModel);
+        jTable1.getColumnModel().getColumn(3).setCellRenderer(new ColorRenderer());
         this.setLocationRelativeTo(null);
     }   
 
@@ -153,11 +161,21 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         String texto = this.selectNodo.getText();
         DefaultMutableTreeNode n = new DefaultMutableTreeNode(texto);
-        if (nodoSeleccionado != null){
+        if (nodoSeleccionado != null) {
             modelo.insertNodeInto(n, nodoSeleccionado, nodoSeleccionado.getChildCount());
-            agregarMensaje("Nodo creado: " + texto);
-        } else{
-            agregarMensaje("Error: No se ha seleccionado un nodo padre.");
+
+            // Simular datos para la tabla
+            int bloquesAsignados = (int) (Math.random() * 10) + 1; // Bloques aleatorios entre 1 y 10
+            String direccionPrimerBloque = "0x" + Integer.toHexString((int) (Math.random() * 1000)); // Dirección aleatoria
+            Color color = new Color(
+                (int) (Math.random() * 256), // R
+                (int) (Math.random() * 256), // G
+                (int) (Math.random() * 256)  // B
+            );
+            agregarFilaATabla(texto, bloquesAsignados, direccionPrimerBloque, color);
+            agregarMensaje("Nodo creado", texto);
+        } else {
+            agregarMensaje("Error", "No se ha seleccionado un nodo padre."); // Mensaje de error
         }
     }//GEN-LAST:event_btnCreateActionPerformed
 
@@ -170,25 +188,37 @@ public class GUI extends javax.swing.JFrame {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-        if (nodoSeleccionado != null){
+        if (nodoSeleccionado != null) {
             String texto = (String) nodoSeleccionado.getUserObject();
             modelo.removeNodeFromParent(nodoSeleccionado);
-            agregarMensaje("Nodo eliminado: " + texto);
-        }else{
-            agregarMensaje("Error: No se ha seleccionado un nodo para eliminar.");
+            for (int i = 0; i < tableModel.getRowCount(); i++) {
+                if (tableModel.getValueAt(i, 0).equals(texto)) {
+                    tableModel.removeRow(i);
+                    break;
+                }
+            }
+            agregarMensaje("Nodo eliminado", texto);
+        } else {
+            agregarMensaje("Error", "No se ha seleccionado un nodo para eliminar."); // Mensaje de error
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        if (nodoSeleccionado != null){
+        if (nodoSeleccionado != null) {
             String textoAnterior = (String) nodoSeleccionado.getUserObject();
             String textoNuevo = this.selectNodo.getText();
-            nodoSeleccionado.setUserObject(this.selectNodo.getText());
+            nodoSeleccionado.setUserObject(textoNuevo);
             modelo.nodeChanged(nodoSeleccionado);
-            agregarMensaje("Nodo actualizado: " + textoAnterior + " -> " + textoNuevo);
-        }else{
-            agregarMensaje("Error: No se ha seleccionado un nodo para actualizar.");
+            for (int i = 0; i < tableModel.getRowCount(); i++) {
+                if (tableModel.getValueAt(i, 0).equals(textoAnterior)) {
+                    tableModel.setValueAt(textoNuevo, i, 0); // Actualizar el nombre del archivo
+                    break;
+                }
+            }
+            agregarMensaje("Nodo actualizado", textoAnterior + " -> " + textoNuevo);
+        } else {
+            agregarMensaje("Error", "No se ha seleccionado un nodo para actualizar."); // Mensaje de error
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
@@ -247,15 +277,33 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JSlider sizefile;
     // End of variables declaration//GEN-END:variables
     
-    private void agregarMensaje(String mensaje) {
-        String mensajeConHora = "[" + obtenerHoraActual() + "] " + mensaje;
+    private void agregarMensaje(String accion, String nombreNodo) {
+        String hora = obtenerHoraActual();
+        String mensaje = "[" + hora + "] " + accion + ": " + nombreNodo; // Mensaje para el JTextArea
         showMovements.append(mensaje + "\n"); // Agrega el mensaje al JTextArea
         showMovements.setCaretPosition(showMovements.getDocument().getLength()); // Desplaza el scroll al final
     }
     
+    private void agregarFilaATabla(String nombreArchivo, int bloquesAsignados, String direccionPrimerBloque, Color color) {
+        tableModel.addRow(new Object[]{nombreArchivo, bloquesAsignados, direccionPrimerBloque, color});
+    }
+    
     private String obtenerHoraActual() {
-        LocalDateTime ahora = LocalDateTime.now(); // Obtiene la fecha y hora actual
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"); // Define el formato
-        return ahora.format(formatter); // Devuelve la hora formateada
+        LocalDateTime ahora = LocalDateTime.now(); 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); 
+        return ahora.format(formatter); 
+    }
+    
+    class ColorRenderer extends javax.swing.table.DefaultTableCellRenderer {
+        @Override
+        public java.awt.Component getTableCellRendererComponent(
+            javax.swing.JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            java.awt.Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            if (value instanceof Color) {
+                cell.setBackground((Color) value); 
+                cell.setForeground((Color) value); 
+            }
+            return cell;
+        }
     }
 }
