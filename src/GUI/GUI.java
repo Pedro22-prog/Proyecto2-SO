@@ -94,6 +94,7 @@ private void actualizarSDVisual() {
      */
     public GUI() {
         initComponents();
+    
         DefaultMutableTreeNode raiz = new DefaultMutableTreeNode(
         new Archivo("Raiz", Archivo.Tipo.DIRECTORIO) // Directorio raíz
     );
@@ -113,7 +114,13 @@ private void actualizarSDVisual() {
         btnCrearDirectorio = new JButton("Nuevo directorio");
     btnCrearDirectorio.addActionListener(e -> crearDirectorio());
     getContentPane().add(btnCrearDirectorio, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 250, -1, -1));
+        // Configurar el listener del JComboBox
+    jComboBox1.addActionListener(e -> actualizarVisibilidadBotones());
+    
+    // Establecer visibilidad inicial según el modo predeterminado
+    actualizarVisibilidadBotones();
     }   
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -237,6 +244,21 @@ private void actualizarSDVisual() {
         this.dispose();
     }//GEN-LAST:event_exitActionPerformed
 
+    private void actualizarVisibilidadBotones() {
+    String modo = (String) jComboBox1.getSelectedItem();
+    
+    if (modo.equals("Administrador")) {
+        btnCreate.setVisible(true);
+        btnUpdate.setVisible(true);
+        btnDelete.setVisible(true);
+        btnCrearDirectorio.setVisible(true);
+    } else if (modo.equals("Usuario")) {
+        btnCreate.setVisible(false);
+        btnUpdate.setVisible(false);
+        btnDelete.setVisible(false);
+        btnCrearDirectorio.setVisible(false);
+    }
+}
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         // TODO add your handling code here:
         if (nodoSeleccionado == null || ((Archivo)nodoSeleccionado.getUserObject()).tipo != Archivo.Tipo.DIRECTORIO) {
