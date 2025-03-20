@@ -40,6 +40,21 @@
               "id": 0
             },
             "tamano": 0
+          },
+          "pNext": {
+            "tInfo": {
+              "nombre": "lequierometerelpipiamariavictoria",
+              "esDirectorio": false,
+              "hijos": {
+                "id": 0
+              },
+              "color": {
+                "r": 114,
+                "g": 23,
+                "b": 48
+              },
+              "tamano": 2
+            }
           }
         }
       },
@@ -368,21 +383,22 @@
                                                               "pNext": {
                                                                 "tInfo": {
                                                                   "id": 29,
-                                                                  "ocupado": false,
+                                                                  "ocupado": true,
                                                                   "color": {
-                                                                    "r": 192,
-                                                                    "g": 192,
-                                                                    "b": 192
-                                                                  }
+                                                                    "r": 114,
+                                                                    "g": 23,
+                                                                    "b": 48
+                                                                  },
+                                                                  "siguienteId": 30
                                                                 },
                                                                 "pNext": {
                                                                   "tInfo": {
                                                                     "id": 30,
-                                                                    "ocupado": false,
+                                                                    "ocupado": true,
                                                                     "color": {
-                                                                      "r": 192,
-                                                                      "g": 192,
-                                                                      "b": 192
+                                                                      "r": 114,
+                                                                      "g": 23,
+                                                                      "b": 48
                                                                     }
                                                                   },
                                                                   "pNext": {
@@ -484,11 +500,23 @@
             "g": 110,
             "b": 104
           }
+        },
+        "pNext": {
+          "tInfo": {
+            "nombre": "lequierometerelpipiamariavictoria",
+            "bloques": 2,
+            "primerBloque": "29",
+            "color": {
+              "r": 114,
+              "g": 23,
+              "b": 48
+            }
+          }
         }
       }
     },
     "id": 0
   },
-  "log": "[2025-03-20 13:03:29] ADMIN: Creado: mariavictoriaestabuena\n[2025-03-20 13:03:52] ADMIN: Creado: mariavictoriaespreciosa\n",
+  "log": "[2025-03-20 13:03:29] ADMIN: Creado: mariavictoriaestabuena\n[2025-03-20 13:03:52] ADMIN: Creado: mariavictoriaespreciosa\n[2025-03-20 13:14:42] Sistema: Estado cargado correctamente\n[2025-03-20 13:16:49] Error: Espacio insuficiente\n[2025-03-20 13:16:54] ADMIN: Creado: lequierometerelpipiamariavictoria\n",
   "modo": "Administrador"
 }

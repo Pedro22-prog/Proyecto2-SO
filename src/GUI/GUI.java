@@ -112,7 +112,7 @@ public class GUI extends javax.swing.JFrame {
         DefaultMutableTreeNode raiz = new DefaultMutableTreeNode(
                 new Archivo("Raiz", Archivo.Tipo.DIRECTORIO) // Directorio raíz
         );
-
+        lbnum.setText(String.valueOf(sizefile.getValue()));
         modelo = new DefaultTreeModel(raiz);
         arbol.setModel(modelo);
         showMovements.setText("");
@@ -161,6 +161,7 @@ public class GUI extends javax.swing.JFrame {
         sizefile = new javax.swing.JSlider();
         jScrollPane4 = new javax.swing.JScrollPane();
         SD = new javax.swing.JTextArea();
+        lbnum = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -240,7 +241,12 @@ public class GUI extends javax.swing.JFrame {
         });
         getContentPane().add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 200, -1, -1));
 
-        sizefile.setMaximum(20);
+        sizefile.setMaximum(35);
+        sizefile.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                sizefileStateChanged(evt);
+            }
+        });
         getContentPane().add(sizefile, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 340, -1, -1));
 
         SD.setColumns(20);
@@ -248,6 +254,9 @@ public class GUI extends javax.swing.JFrame {
         jScrollPane4.setViewportView(SD);
 
         getContentPane().add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 290, 380, 340));
+
+        lbnum.setText("jLabel3");
+        getContentPane().add(lbnum, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 370, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -630,6 +639,10 @@ class ColorAdapter extends TypeAdapter<Color> {
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
+    private void sizefileStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sizefileStateChanged
+    lbnum.setText(String.valueOf(sizefile.getValue()));        // TODO add your handling code here:
+    }//GEN-LAST:event_sizefileStateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -680,6 +693,7 @@ class ColorAdapter extends TypeAdapter<Color> {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lbnum;
     private javax.swing.JTextField selectNodo;
     private javax.swing.JTextArea showMovements;
     private javax.swing.JSlider sizefile;
