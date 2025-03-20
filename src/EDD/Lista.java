@@ -66,5 +66,11 @@ public class Lista<T> {
             actual.setpNext(nuevoNodo);
         }
     }
+    public boolean isEmpty() {
+    return pFirst == null;
+}
+    public void vaciar(){
+        pFirst=null;
+    }
     
 }

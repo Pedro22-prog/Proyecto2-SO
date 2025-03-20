@@ -8,11 +8,12 @@ package MainClasses;
  *
  * @author david
  */
-public class Directorio extends Archivo {
+public class Directorio {
     public Archivo primerArchivo;
+    private String nombre;
 
     public Directorio(String nombre) {
-        super(nombre, 0); // Los directorios no ocupan bloques
+        this.nombre=nombre; // Los directorios no ocupan bloques
         this.primerArchivo = null;
     }
 

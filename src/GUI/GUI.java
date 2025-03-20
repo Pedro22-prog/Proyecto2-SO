@@ -4,12 +4,21 @@
  */
 package GUI;
 
+import MainClasses.Archivo;
+import MainClasses.Block;
+import MainClasses.SD;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import java.awt.Color;
+// En la sección de imports de GUI.java
+import javax.swing.JPanel; // <-- Añade esta línea
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
+import java.awt.GridLayout;
+import java.awt.Dimension;
 
 /**
  *
@@ -19,6 +28,33 @@ public class GUI extends javax.swing.JFrame {
     private DefaultTreeModel modelo;
     private DefaultMutableTreeNode nodoSeleccionado;
     private DefaultTableModel tableModel;
+    private SD sd = new SD();
+    // En la clase GUI:
+private JPanel panelSD; // Reemplazar el JTextArea SD
+
+// En el constructor:
+private void initSDVisual() {
+    panelSD = new JPanel(new GridLayout(5, 7, 2, 2)); // 35 bloques en grid 5x7
+    panelSD.setPreferredSize(new Dimension(380, 340));
+    jScrollPane4.setViewportView(panelSD);
+    actualizarSDVisual();
+}
+
+// Método para actualizar la visualización
+private void actualizarSDVisual() {
+    panelSD.removeAll();
+    Block[] bloques = sd.getBloques();
+    
+    for (Block bloque : bloques) {
+        JPanel bloquePanel = new JPanel();
+        bloquePanel.setBackground(bloque.color);
+        bloquePanel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+        panelSD.add(bloquePanel);
+    }
+    
+    panelSD.revalidate();
+    panelSD.repaint(); // Forzar repintado
+}
     /**
      * Creates new form GUI
      */
@@ -35,6 +71,7 @@ public class GUI extends javax.swing.JFrame {
         jTable1.setModel(tableModel);
         jTable1.getColumnModel().getColumn(3).setCellRenderer(new ColorRenderer());
         this.setLocationRelativeTo(null);
+        initSDVisual();
     }   
 
     /**
@@ -159,48 +196,89 @@ public class GUI extends javax.swing.JFrame {
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         // TODO add your handling code here:
-        String texto = this.selectNodo.getText();
-        DefaultMutableTreeNode n = new DefaultMutableTreeNode(texto);
-        if (nodoSeleccionado != null) {
-            modelo.insertNodeInto(n, nodoSeleccionado, nodoSeleccionado.getChildCount());
-
-            // Simular datos para la tabla
-            int bloquesAsignados = (int) (Math.random() * 10) + 1; // Bloques aleatorios entre 1 y 10
-            String direccionPrimerBloque = "0x" + Integer.toHexString((int) (Math.random() * 1000)); // Dirección aleatoria
-            Color color = new Color(
-                (int) (Math.random() * 256), // R
-                (int) (Math.random() * 256), // G
-                (int) (Math.random() * 256)  // B
-            );
-            agregarFilaATabla(texto, bloquesAsignados, direccionPrimerBloque, color);
-            agregarMensaje("Nodo creado", texto);
-        } else {
-            agregarMensaje("Error", "No se ha seleccionado un nodo padre."); // Mensaje de error
+        String nombreArchivo = this.selectNodo.getText();
+        int bloquesNecesarios = sizefile.getValue(); // Obtener valor del slider
+        
+        if (bloquesNecesarios <= 0) {
+            agregarMensaje("Error", "Tamaño inválido");
+            return;
         }
+        
+        // Generar color único para el archivo
+        Color colorArchivo = new Color(
+            (int) (Math.random() * 256),
+            (int) (Math.random() * 256),
+            (int) (Math.random() * 256)
+        );
+        
+        // Crear nuevo archivo con color
+        Archivo nuevoArchivo = new Archivo(nombreArchivo, bloquesNecesarios, colorArchivo);
+        
+        if (sd.asignarBloques(nuevoArchivo, bloquesNecesarios)) {
+            // Crear nodo con objeto Archivo
+            DefaultMutableTreeNode nodo = new DefaultMutableTreeNode(nuevoArchivo);
+            
+            if (nodoSeleccionado != null) {
+                modelo.insertNodeInto(nodo, nodoSeleccionado, nodoSeleccionado.getChildCount());
+                
+                // Agregar a la tabla
+                String primerBloque = nuevoArchivo.listaBloques.isEmpty() ? 
+                    "N/A" : String.valueOf(nuevoArchivo.listaBloques.getpFirst().gettInfo());
+                
+                tableModel.addRow(new Object[]{
+                    nombreArchivo,
+                    bloquesNecesarios,
+                    primerBloque,
+                    colorArchivo
+                });
+                
+                actualizarSDVisual();
+                agregarMensaje("Creado", nombreArchivo);
+            }
+        } else {
+            agregarMensaje("Error", "Espacio insuficiente");
+        }
+    
     }//GEN-LAST:event_btnCreateActionPerformed
 
     private void arbolValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_arbolValueChanged
        nodoSeleccionado = (DefaultMutableTreeNode) arbol.getLastSelectedPathComponent();
-       if (nodoSeleccionado != null){
-           selectNodo.setText((String) nodoSeleccionado.getUserObject());
-       }
+    if (nodoSeleccionado != null) {
+        Object userObject = nodoSeleccionado.getUserObject();
+        if (userObject instanceof Archivo) {
+            Archivo archivo = (Archivo) userObject;
+            selectNodo.setText(archivo.nombre); // Mostrar el nombre en el campo de texto
+        }
+    }
     }//GEN-LAST:event_arbolValueChanged
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
         if (nodoSeleccionado != null) {
-            String texto = (String) nodoSeleccionado.getUserObject();
-            modelo.removeNodeFromParent(nodoSeleccionado);
+        Object userObject = nodoSeleccionado.getUserObject();
+        if (userObject instanceof Archivo) {
+            Archivo archivo = (Archivo) userObject;
+            
+            // Liberar bloques en la SD
+            sd.liberarBloques(archivo); // <-- Paso crítico
+            
+            // Eliminar de la tabla
             for (int i = 0; i < tableModel.getRowCount(); i++) {
-                if (tableModel.getValueAt(i, 0).equals(texto)) {
+                if (tableModel.getValueAt(i, 0).equals(archivo.nombre)) {
                     tableModel.removeRow(i);
                     break;
                 }
             }
-            agregarMensaje("Nodo eliminado", texto);
-        } else {
-            agregarMensaje("Error", "No se ha seleccionado un nodo para eliminar."); // Mensaje de error
+            
+            // Eliminar del árbol
+            modelo.removeNodeFromParent(nodoSeleccionado);
+            
+            // Actualizar visualización del SD
+            actualizarSDVisual(); // <-- Forzar actualización
+            agregarMensaje("Eliminado", archivo.nombre);
         }
+    }
+    
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed

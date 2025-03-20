@@ -6,6 +6,7 @@ package MainClasses;
 
 import EDD.Lista;
 import EDD.Nodo;
+import java.awt.Color;
 
 /**
  *
@@ -34,6 +35,8 @@ public class SD {
         for (Block bloque : bloques) {
             if (!bloque.ocupado) {
                 bloque.ocupado = true;
+                
+                bloque.color = archivo.color;
                 archivo.listaBloques.insertarAlFinal(bloque.id); // Guardar ID en lista del archivo
                 
                 if (bloqueAnterior != null) {
@@ -50,15 +53,16 @@ public class SD {
 
     // Método para liberar bloques de un archivo
     public void liberarBloques(Archivo archivo) {
-        Nodo<Integer> nodoBloque = archivo.listaBloques.getpFirst();
-        while (nodoBloque != null) {
-            int idBloque = nodoBloque.gettInfo();
-            bloques[idBloque].ocupado = false;
-            bloques[idBloque].siguiente = null; // Eliminar enlace
-            nodoBloque = nodoBloque.getpNext();
-        }
-        archivo.listaBloques.setpFirst(null); // Vaciar lista del archivo
+    Nodo<Integer> nodo = archivo.listaBloques.getpFirst();
+    while (nodo != null) {
+        int idBloque = nodo.gettInfo();
+        bloques[idBloque].ocupado = false;
+        bloques[idBloque].color = Color.LIGHT_GRAY; // Restablecer color
+        bloques[idBloque].siguiente = null; // Eliminar enlace
+        nodo = nodo.getpNext();
     }
+    archivo.listaBloques.vaciar(); // Limpiar la lista de bloques del archivo
+}
 
     // Método auxiliar: contar bloques disponibles
     public int bloquesDisponibles() {
