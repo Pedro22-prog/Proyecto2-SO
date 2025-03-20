@@ -246,6 +246,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTextArea showMovements;
     private javax.swing.JSlider sizefile;
     // End of variables declaration//GEN-END:variables
+    
     private void agregarMensaje(String mensaje) {
         String mensajeConHora = "[" + obtenerHoraActual() + "] " + mensaje;
         showMovements.append(mensaje + "\n"); // Agrega el mensaje al JTextArea
