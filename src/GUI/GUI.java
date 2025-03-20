@@ -14,7 +14,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import java.awt.Color;
 // En la sección de imports de GUI.java
-import javax.swing.JPanel; // <-- Añade esta línea
+import javax.swing.JPanel;
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
 import java.awt.GridLayout;
@@ -219,6 +219,8 @@ private void actualizarSDVisual() {
             }
         });
         getContentPane().add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 200, -1, -1));
+
+        sizefile.setMaximum(20);
         getContentPane().add(sizefile, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 340, -1, -1));
 
         SD.setColumns(20);
@@ -278,7 +280,7 @@ private void actualizarSDVisual() {
                 });
                 
                 actualizarSDVisual();
-                agregarMensaje("Creado", nombreArchivo);
+                agregarMensaje("ADMIN: Creado", nombreArchivo);
             }
         } else {
             agregarMensaje("Error", "Espacio insuficiente");
@@ -315,7 +317,7 @@ private void actualizarSDVisual() {
                 
                 // Eliminar del árbol
                 modelo.removeNodeFromParent(nodoSeleccionado);
-                agregarMensaje("Eliminado", elemento.nombre);
+                agregarMensaje("ADMIN: Eliminado", elemento.nombre);
             }
             // Caso 2: Es un directorio
             else if (elemento.tipo == Archivo.Tipo.DIRECTORIO) {
@@ -324,7 +326,7 @@ private void actualizarSDVisual() {
                 
                 // Eliminar el directorio padre del árbol
                 modelo.removeNodeFromParent(nodoSeleccionado);
-                agregarMensaje("Eliminado", elemento.nombre);
+                agregarMensaje("ADMIN: Eliminado", elemento.nombre);
             }
             
             actualizarSDVisual(); // Actualizar la vista del SD
@@ -365,20 +367,33 @@ private void eliminarDeTabla(String nombreArchivo) {
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
         if (nodoSeleccionado != null) {
-            String textoAnterior = (String) nodoSeleccionado.getUserObject();
-            String textoNuevo = this.selectNodo.getText();
-            nodoSeleccionado.setUserObject(textoNuevo);
-            modelo.nodeChanged(nodoSeleccionado);
-            for (int i = 0; i < tableModel.getRowCount(); i++) {
-                if (tableModel.getValueAt(i, 0).equals(textoAnterior)) {
-                    tableModel.setValueAt(textoNuevo, i, 0); // Actualizar el nombre del archivo
-                    break;
+        // Obtener el objeto Archivo/Directorio del nodo
+        Archivo elemento = (Archivo) nodoSeleccionado.getUserObject();
+        String nombreAnterior = elemento.nombre;
+        String nuevoNombre = this.selectNodo.getText().trim();
+        
+        if (!nuevoNombre.isEmpty()) {
+            // Actualizar nombre en el objeto
+            elemento.nombre = nuevoNombre;
+            
+            // Actualizar JTree
+            modelo.nodeChanged(nodoSeleccionado); // Notificar cambio
+            
+            // Actualizar JTable solo si es archivo
+            if (elemento.tipo == Archivo.Tipo.ARCHIVO) {
+                for (int i = 0; i < tableModel.getRowCount(); i++) {
+                    if (tableModel.getValueAt(i, 0).equals(nombreAnterior)) {
+                        tableModel.setValueAt(nuevoNombre, i, 0);
+                        break;
+                    }
                 }
             }
-            agregarMensaje("Nodo actualizado", textoAnterior + " -> " + textoNuevo);
-        } else {
-            agregarMensaje("Error", "No se ha seleccionado un nodo para actualizar."); // Mensaje de error
+            
+            agregarMensaje("ADMIN: Actualizado", nombreAnterior + " → " + nuevoNombre);
         }
+    } else {
+        agregarMensaje("Error", "Seleccione un nodo");
+    }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     /**

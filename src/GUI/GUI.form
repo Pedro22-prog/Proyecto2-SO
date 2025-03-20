@@ -196,6 +196,9 @@
       </Constraints>
     </Component>
     <Component class="javax.swing.JSlider" name="sizefile">
+      <Properties>
+        <Property name="maximum" type="int" value="20"/>
+      </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="160" y="340" width="-1" height="-1"/>
