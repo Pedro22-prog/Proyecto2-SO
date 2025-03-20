@@ -13,6 +13,10 @@ import MainClasses.ConfiguracionEstado;
 import MainClasses.Archivo;
 import MainClasses.Block;
 import MainClasses.SD;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
+import com.google.gson.stream.JsonWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.swing.table.DefaultTableModel;
@@ -98,7 +102,13 @@ public class GUI extends javax.swing.JFrame {
      */
     public GUI() {
         initComponents();
+        JButton btnGuardar = new JButton("Guardar Estado");
+        btnGuardar.addActionListener(e -> guardarEstado());
+        getContentPane().add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 600, 120, 25));
 
+        JButton btnCargar = new JButton("Cargar Estado");
+        btnCargar.addActionListener(e -> cargarEstado());
+        getContentPane().add(btnCargar, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 600, 120, 25));
         DefaultMutableTreeNode raiz = new DefaultMutableTreeNode(
                 new Archivo("Raiz", Archivo.Tipo.DIRECTORIO) // Directorio raíz
         );
@@ -246,6 +256,182 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_exitActionPerformed
+    private void guardarEstado() {
+        JFileChooser fileChooser = new JFileChooser();
+        if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+            try (FileWriter writer = new FileWriter(fileChooser.getSelectedFile())) {
+                Gson gson = new GsonBuilder()
+                        .registerTypeAdapter(Color.class, new ColorAdapter())
+                        .setPrettyPrinting()
+                        .create();
+
+                ConfiguracionEstado estado = new ConfiguracionEstado();
+                estado.raiz = serializarNodo((DefaultMutableTreeNode) modelo.getRoot());
+                estado.bloquesSD = serializarBloquesSD();
+                estado.tablaArchivos = serializarTabla();
+                estado.log = showMovements.getText();
+                estado.modo = (String) jComboBox1.getSelectedItem();
+
+                gson.toJson(estado, writer);
+                agregarMensaje("Sistema", "Estado guardado correctamente");
+            } catch (IOException ex) {
+                agregarMensaje("Error", "Error al guardar: " + ex.getMessage());
+            }
+        }
+    }
+
+    private void cargarEstado() {
+        JFileChooser fileChooser = new JFileChooser();
+        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            try (FileReader reader = new FileReader(fileChooser.getSelectedFile())) {
+                Gson gson = new GsonBuilder()
+                        .registerTypeAdapter(Color.class, new ColorAdapter())
+                        .create();
+
+                ConfiguracionEstado estado = gson.fromJson(reader, ConfiguracionEstado.class);
+                aplicarEstado(estado);
+                agregarMensaje("Sistema", "Estado cargado correctamente");
+            } catch (IOException ex) {
+                agregarMensaje("Error", "Error al cargar: " + ex.getMessage());
+            }
+        }
+    }
+    
+    private ConfiguracionEstado.NodoArbol serializarNodo(DefaultMutableTreeNode nodo) {
+    Archivo archivo = (Archivo) nodo.getUserObject();
+    ConfiguracionEstado.NodoArbol nodoEstado = new ConfiguracionEstado.NodoArbol();
+    
+    nodoEstado.nombre = archivo.nombre;
+    nodoEstado.esDirectorio = (archivo.tipo == Archivo.Tipo.DIRECTORIO);
+    nodoEstado.color = archivo.color;
+    nodoEstado.tamano = archivo.tamano;
+    
+    Enumeration<?> hijos = nodo.children();
+    while (hijos.hasMoreElements()) {
+        DefaultMutableTreeNode hijo = (DefaultMutableTreeNode) hijos.nextElement();
+        nodoEstado.hijos.insertarAlFinal(serializarNodo(hijo));
+    }
+    
+    return nodoEstado;
+}
+
+private Lista<ConfiguracionEstado.BloqueEstado> serializarBloquesSD() {
+    Lista<ConfiguracionEstado.BloqueEstado> lista = new Lista<>();
+    for (Block bloque : sd.getBloques()) {
+        ConfiguracionEstado.BloqueEstado be = new ConfiguracionEstado.BloqueEstado();
+        be.id = bloque.id;
+        be.ocupado = bloque.ocupado;
+        be.color = bloque.color;
+        be.siguienteId = (bloque.siguiente != null) ? bloque.siguiente.id : null;
+        lista.insertarAlFinal(be);
+    }
+    return lista;
+}
+
+private Lista<ConfiguracionEstado.FilaTabla> serializarTabla() {
+    Lista<ConfiguracionEstado.FilaTabla> lista = new Lista<>();
+    for (int i = 0; i < tableModel.getRowCount(); i++) {
+        ConfiguracionEstado.FilaTabla ft = new ConfiguracionEstado.FilaTabla();
+        ft.nombre = (String) tableModel.getValueAt(i, 0);
+        ft.bloques = (int) tableModel.getValueAt(i, 1);
+        ft.primerBloque = (String) tableModel.getValueAt(i, 2);
+        ft.color = (Color) tableModel.getValueAt(i, 3);
+        lista.insertarAlFinal(ft);
+    }
+    return lista;
+}
+
+private void aplicarEstado(ConfiguracionEstado estado) {
+    // Limpiar estado actual
+    modelo.setRoot(new DefaultMutableTreeNode());
+    tableModel.setRowCount(0);
+    showMovements.setText("");
+    
+    // Cargar árbol
+    DefaultMutableTreeNode nuevaRaiz = deserializarNodo(estado.raiz);
+    modelo.setRoot(nuevaRaiz);
+    arbol.setModel(modelo);
+    
+    // Cargar SD
+    Block[] bloques = new Block[35];
+    for (ConfiguracionEstado.BloqueEstado be : estado.bloquesSD.toArray(new ConfiguracionEstado.BloqueEstado[0])) {
+        Block bloque = new Block(be.id);
+        bloque.ocupado = be.ocupado;
+        bloque.color = be.color;
+        bloques[be.id] = bloque;
+    }
+    
+    // Reconstruir enlaces
+    for (ConfiguracionEstado.BloqueEstado be : estado.bloquesSD.toArray(new ConfiguracionEstado.BloqueEstado[0])) {
+        if (be.siguienteId != null) {
+            bloques[be.id].siguiente = bloques[be.siguienteId];
+        }
+    }
+    sd.setBloques(bloques);
+    
+    // Cargar tabla
+    for (ConfiguracionEstado.FilaTabla ft : estado.tablaArchivos.toArray(new ConfiguracionEstado.FilaTabla[0])) {
+        tableModel.addRow(new Object[]{ft.nombre, ft.bloques, ft.primerBloque, ft.color});
+    }
+    
+    // Cargar log y modo
+    showMovements.setText(estado.log);
+    jComboBox1.setSelectedItem(estado.modo);
+    actualizarVisibilidadBotones();
+    actualizarSDVisual();
+}
+
+private DefaultMutableTreeNode deserializarNodo(ConfiguracionEstado.NodoArbol nodoEstado) {
+    Archivo archivo;
+    if (nodoEstado.esDirectorio) {
+        archivo = new Archivo(nodoEstado.nombre, Archivo.Tipo.DIRECTORIO);
+    } else {
+        archivo = new Archivo(nodoEstado.nombre, nodoEstado.tamano, nodoEstado.color);
+    }
+    
+    DefaultMutableTreeNode nodo = new DefaultMutableTreeNode(archivo);
+    for (ConfiguracionEstado.NodoArbol hijo : nodoEstado.hijos.toArray(new ConfiguracionEstado.NodoArbol[0])) {
+        nodo.add(deserializarNodo(hijo));
+    }
+    
+    return nodo;
+}
+
+class ColorAdapter extends TypeAdapter<Color> {
+    @Override
+    public void write(JsonWriter out, Color color) throws IOException {
+        if (color == null) {
+            out.nullValue();
+            return;
+        }
+        out.beginObject();
+        out.name("r").value(color.getRed());
+        out.name("g").value(color.getGreen());
+        out.name("b").value(color.getBlue());
+        out.endObject();
+    }
+
+    @Override
+    public Color read(JsonReader in) throws IOException {
+        if (in.peek() == JsonToken.NULL) {
+            in.nextNull();
+            return null;
+        }
+        
+        int r = 0, g = 0, b = 0;
+        in.beginObject();
+        while (in.hasNext()) {
+            switch (in.nextName()) {
+                case "r": r = in.nextInt(); break;
+                case "g": g = in.nextInt(); break;
+                case "b": b = in.nextInt(); break;
+                default: in.skipValue();
+            }
+        }
+        in.endObject();
+        return new Color(r, g, b);
+    }
+}
 
     private void actualizarVisibilidadBotones() {
         String modo = (String) jComboBox1.getSelectedItem();

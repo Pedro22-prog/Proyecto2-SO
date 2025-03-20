@@ -1,15 +1,14 @@
-// Archivo: ConfiguracionEstado.java
 package MainClasses;
 
 import EDD.Lista;
 import java.awt.Color;
 
-
 public class ConfiguracionEstado {
     public NodoArbol raiz;
     public Lista<BloqueEstado> bloquesSD = new Lista<>();
     public Lista<FilaTabla> tablaArchivos = new Lista<>();
-    public String modoUsuario;
+    public String log;
+    public String modo;
 
     public static class NodoArbol {
         public String nombre;
