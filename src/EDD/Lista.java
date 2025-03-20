@@ -72,5 +72,42 @@ public class Lista<T> {
     public void vaciar(){
         pFirst=null;
     }
+    public T[] toArray() {
+        Object[] array = new Object[size()];
+        Nodo<T> actual = pFirst;
+        int i = 0;
+        while (actual != null) {
+            array[i++] = actual.gettInfo();
+            actual = actual.getpNext();
+        }
+        return (T[]) array;
+    }
+    public int size() {
+        int count = 0;
+        Nodo<T> actual = pFirst;
+        while (actual != null) {
+            count++;
+            actual = actual.getpNext();
+        }
+        return count;
+    }
+    public T[] toArray(T[] array) {
+    if (array.length < size()) {
+        // Crear nuevo array del tipo correcto si es necesario
+        array = (T[]) java.lang.reflect.Array.newInstance(
+            array.getClass().getComponentType(), 
+            size()
+        );
+    }
     
+    int i = 0;
+    Nodo<T> actual = pFirst;
+    while (actual != null && i < array.length) {
+        array[i] = actual.gettInfo();
+        actual = actual.getpNext();
+        i++;
+    }
+    
+    return array;
+}
 }

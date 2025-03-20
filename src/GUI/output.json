@@ -1,0 +1,502 @@
+{
+  "raiz": {
+    "nombre": "Raiz",
+    "esDirectorio": true,
+    "hijos": {
+      "pFirst": {
+        "tInfo": {
+          "nombre": "mariavictoriaestabuena",
+          "esDirectorio": false,
+          "hijos": {
+            "name": "Hijos",
+            "id": 3
+          },
+          "color": {
+            "r": 212,
+            "g": 177,
+            "b": 236
+          },
+          "tamano": 20
+        },
+        "pNext": {
+          "tInfo": {
+            "nombre": "jhgfg",
+            "esDirectorio": true,
+            "hijos": {
+              "pFirst": {
+                "tInfo": {
+                  "nombre": "mariavictoriaespreciosa",
+                  "esDirectorio": false,
+                  "hijos": {
+                    "name": "Hijos",
+                    "id": 3
+                  },
+                  "color": {
+                    "r": 129,
+                    "g": 25,
+                    "b": 138
+                  },
+                  "tamano": 12
+                }
+              },
+              "name": "Hijos",
+              "id": 3
+            },
+            "tamano": 0
+          }
+        }
+      },
+      "name": "Hijos",
+      "id": 3
+    },
+    "tamano": 0
+  },
+  "bloquesSD": {
+    "pFirst": {
+      "tInfo": {
+        "id": 0,
+        "ocupado": true,
+        "color": {
+          "r": 212,
+          "g": 177,
+          "b": 236
+        },
+        "siguienteId": 1
+      },
+      "pNext": {
+        "tInfo": {
+          "id": 1,
+          "ocupado": true,
+          "color": {
+            "r": 212,
+            "g": 177,
+            "b": 236
+          },
+          "siguienteId": 2
+        },
+        "pNext": {
+          "tInfo": {
+            "id": 2,
+            "ocupado": true,
+            "color": {
+              "r": 212,
+              "g": 177,
+              "b": 236
+            },
+            "siguienteId": 3
+          },
+          "pNext": {
+            "tInfo": {
+              "id": 3,
+              "ocupado": true,
+              "color": {
+                "r": 212,
+                "g": 177,
+                "b": 236
+              },
+              "siguienteId": 4
+            },
+            "pNext": {
+              "tInfo": {
+                "id": 4,
+                "ocupado": true,
+                "color": {
+                  "r": 212,
+                  "g": 177,
+                  "b": 236
+                },
+                "siguienteId": 5
+              },
+              "pNext": {
+                "tInfo": {
+                  "id": 5,
+                  "ocupado": true,
+                  "color": {
+                    "r": 212,
+                    "g": 177,
+                    "b": 236
+                  },
+                  "siguienteId": 6
+                },
+                "pNext": {
+                  "tInfo": {
+                    "id": 6,
+                    "ocupado": true,
+                    "color": {
+                      "r": 212,
+                      "g": 177,
+                      "b": 236
+                    },
+                    "siguienteId": 7
+                  },
+                  "pNext": {
+                    "tInfo": {
+                      "id": 7,
+                      "ocupado": true,
+                      "color": {
+                        "r": 212,
+                        "g": 177,
+                        "b": 236
+                      },
+                      "siguienteId": 8
+                    },
+                    "pNext": {
+                      "tInfo": {
+                        "id": 8,
+                        "ocupado": true,
+                        "color": {
+                          "r": 212,
+                          "g": 177,
+                          "b": 236
+                        },
+                        "siguienteId": 9
+                      },
+                      "pNext": {
+                        "tInfo": {
+                          "id": 9,
+                          "ocupado": true,
+                          "color": {
+                            "r": 212,
+                            "g": 177,
+                            "b": 236
+                          },
+                          "siguienteId": 10
+                        },
+                        "pNext": {
+                          "tInfo": {
+                            "id": 10,
+                            "ocupado": true,
+                            "color": {
+                              "r": 212,
+                              "g": 177,
+                              "b": 236
+                            },
+                            "siguienteId": 11
+                          },
+                          "pNext": {
+                            "tInfo": {
+                              "id": 11,
+                              "ocupado": true,
+                              "color": {
+                                "r": 212,
+                                "g": 177,
+                                "b": 236
+                              },
+                              "siguienteId": 12
+                            },
+                            "pNext": {
+                              "tInfo": {
+                                "id": 12,
+                                "ocupado": true,
+                                "color": {
+                                  "r": 212,
+                                  "g": 177,
+                                  "b": 236
+                                },
+                                "siguienteId": 13
+                              },
+                              "pNext": {
+                                "tInfo": {
+                                  "id": 13,
+                                  "ocupado": true,
+                                  "color": {
+                                    "r": 212,
+                                    "g": 177,
+                                    "b": 236
+                                  },
+                                  "siguienteId": 14
+                                },
+                                "pNext": {
+                                  "tInfo": {
+                                    "id": 14,
+                                    "ocupado": true,
+                                    "color": {
+                                      "r": 212,
+                                      "g": 177,
+                                      "b": 236
+                                    },
+                                    "siguienteId": 15
+                                  },
+                                  "pNext": {
+                                    "tInfo": {
+                                      "id": 15,
+                                      "ocupado": true,
+                                      "color": {
+                                        "r": 212,
+                                        "g": 177,
+                                        "b": 236
+                                      },
+                                      "siguienteId": 16
+                                    },
+                                    "pNext": {
+                                      "tInfo": {
+                                        "id": 16,
+                                        "ocupado": true,
+                                        "color": {
+                                          "r": 212,
+                                          "g": 177,
+                                          "b": 236
+                                        },
+                                        "siguienteId": 17
+                                      },
+                                      "pNext": {
+                                        "tInfo": {
+                                          "id": 17,
+                                          "ocupado": true,
+                                          "color": {
+                                            "r": 212,
+                                            "g": 177,
+                                            "b": 236
+                                          },
+                                          "siguienteId": 18
+                                        },
+                                        "pNext": {
+                                          "tInfo": {
+                                            "id": 18,
+                                            "ocupado": true,
+                                            "color": {
+                                              "r": 212,
+                                              "g": 177,
+                                              "b": 236
+                                            },
+                                            "siguienteId": 19
+                                          },
+                                          "pNext": {
+                                            "tInfo": {
+                                              "id": 19,
+                                              "ocupado": true,
+                                              "color": {
+                                                "r": 212,
+                                                "g": 177,
+                                                "b": 236
+                                              }
+                                            },
+                                            "pNext": {
+                                              "tInfo": {
+                                                "id": 20,
+                                                "ocupado": true,
+                                                "color": {
+                                                  "r": 129,
+                                                  "g": 25,
+                                                  "b": 138
+                                                },
+                                                "siguienteId": 21
+                                              },
+                                              "pNext": {
+                                                "tInfo": {
+                                                  "id": 21,
+                                                  "ocupado": true,
+                                                  "color": {
+                                                    "r": 129,
+                                                    "g": 25,
+                                                    "b": 138
+                                                  },
+                                                  "siguienteId": 22
+                                                },
+                                                "pNext": {
+                                                  "tInfo": {
+                                                    "id": 22,
+                                                    "ocupado": true,
+                                                    "color": {
+                                                      "r": 129,
+                                                      "g": 25,
+                                                      "b": 138
+                                                    },
+                                                    "siguienteId": 23
+                                                  },
+                                                  "pNext": {
+                                                    "tInfo": {
+                                                      "id": 23,
+                                                      "ocupado": true,
+                                                      "color": {
+                                                        "r": 129,
+                                                        "g": 25,
+                                                        "b": 138
+                                                      },
+                                                      "siguienteId": 24
+                                                    },
+                                                    "pNext": {
+                                                      "tInfo": {
+                                                        "id": 24,
+                                                        "ocupado": true,
+                                                        "color": {
+                                                          "r": 129,
+                                                          "g": 25,
+                                                          "b": 138
+                                                        },
+                                                        "siguienteId": 25
+                                                      },
+                                                      "pNext": {
+                                                        "tInfo": {
+                                                          "id": 25,
+                                                          "ocupado": true,
+                                                          "color": {
+                                                            "r": 129,
+                                                            "g": 25,
+                                                            "b": 138
+                                                          },
+                                                          "siguienteId": 26
+                                                        },
+                                                        "pNext": {
+                                                          "tInfo": {
+                                                            "id": 26,
+                                                            "ocupado": true,
+                                                            "color": {
+                                                              "r": 129,
+                                                              "g": 25,
+                                                              "b": 138
+                                                            },
+                                                            "siguienteId": 27
+                                                          },
+                                                          "pNext": {
+                                                            "tInfo": {
+                                                              "id": 27,
+                                                              "ocupado": true,
+                                                              "color": {
+                                                                "r": 129,
+                                                                "g": 25,
+                                                                "b": 138
+                                                              },
+                                                              "siguienteId": 28
+                                                            },
+                                                            "pNext": {
+                                                              "tInfo": {
+                                                                "id": 28,
+                                                                "ocupado": true,
+                                                                "color": {
+                                                                  "r": 129,
+                                                                  "g": 25,
+                                                                  "b": 138
+                                                                },
+                                                                "siguienteId": 29
+                                                              },
+                                                              "pNext": {
+                                                                "tInfo": {
+                                                                  "id": 29,
+                                                                  "ocupado": true,
+                                                                  "color": {
+                                                                    "r": 129,
+                                                                    "g": 25,
+                                                                    "b": 138
+                                                                  },
+                                                                  "siguienteId": 30
+                                                                },
+                                                                "pNext": {
+                                                                  "tInfo": {
+                                                                    "id": 30,
+                                                                    "ocupado": true,
+                                                                    "color": {
+                                                                      "r": 129,
+                                                                      "g": 25,
+                                                                      "b": 138
+                                                                    },
+                                                                    "siguienteId": 31
+                                                                  },
+                                                                  "pNext": {
+                                                                    "tInfo": {
+                                                                      "id": 31,
+                                                                      "ocupado": true,
+                                                                      "color": {
+                                                                        "r": 129,
+                                                                        "g": 25,
+                                                                        "b": 138
+                                                                      }
+                                                                    },
+                                                                    "pNext": {
+                                                                      "tInfo": {
+                                                                        "id": 32,
+                                                                        "ocupado": false,
+                                                                        "color": {
+                                                                          "r": 192,
+                                                                          "g": 192,
+                                                                          "b": 192
+                                                                        }
+                                                                      },
+                                                                      "pNext": {
+                                                                        "tInfo": {
+                                                                          "id": 33,
+                                                                          "ocupado": false,
+                                                                          "color": {
+                                                                            "r": 192,
+                                                                            "g": 192,
+                                                                            "b": 192
+                                                                          }
+                                                                        },
+                                                                        "pNext": {
+                                                                          "tInfo": {
+                                                                            "id": 34,
+                                                                            "ocupado": false,
+                                                                            "color": {
+                                                                              "r": 192,
+                                                                              "g": 192,
+                                                                              "b": 192
+                                                                            }
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "name": "BloquesSD",
+    "id": 1
+  },
+  "tablaArchivos": {
+    "pFirst": {
+      "tInfo": {
+        "nombre": "mariavictoriaestabuena",
+        "bloques": 20,
+        "primerBloque": "0",
+        "color": {
+          "r": 212,
+          "g": 177,
+          "b": 236
+        }
+      },
+      "pNext": {
+        "tInfo": {
+          "nombre": "mariavictoriaespreciosa",
+          "bloques": 12,
+          "primerBloque": "20",
+          "color": {
+            "r": 129,
+            "g": 25,
+            "b": 138
+          }
+        }
+      }
+    },
+    "name": "TablaArchivos",
+    "id": 2
+  },
+  "modoUsuario": "Administrador"
+}

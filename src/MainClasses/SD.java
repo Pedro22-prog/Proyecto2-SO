@@ -79,4 +79,8 @@ public class SD {
     public Block[] getBloques() {
         return bloques;
     }
+
+    public void setBloques(Block[] bloques) {
+        this.bloques = bloques;
+    }
 }

@@ -3,7 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package GUI;
-
+import EDD.Lista;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import javax.swing.JFileChooser;
+import java.io.*;
+import MainClasses.ConfiguracionEstado;
 import MainClasses.Archivo;
 import MainClasses.Block;
 import MainClasses.SD;
@@ -266,6 +271,16 @@ private void actualizarSDVisual() {
         return;
     }
         String nombreArchivo = this.selectNodo.getText();
+        Enumeration<?> hijos = nodoSeleccionado.children();
+    while (hijos.hasMoreElements()) {
+        DefaultMutableTreeNode hijo = (DefaultMutableTreeNode) hijos.nextElement();
+        Archivo elemento = (Archivo) hijo.getUserObject();
+        
+        if (elemento.tipo == Archivo.Tipo.ARCHIVO && elemento.nombre.equals(nombreArchivo)) {
+            agregarMensaje("Error", "Ya existe un archivo con ese nombre en el directorio");
+            return;
+        }
+    }
         int bloquesNecesarios = sizefile.getValue(); // Obtener valor del slider
         
         if (bloquesNecesarios <= 0) {
@@ -358,22 +373,31 @@ private void actualizarSDVisual() {
 
     // Método auxiliar para eliminar directorios y su contenido
 private void eliminarDirectorioRecursivo(DefaultMutableTreeNode nodoDirectorio) {
-    Enumeration<?> hijos = nodoDirectorio.children();
+    // 1. Recolectar todos los hijos en una Lista personalizada
+    Lista<DefaultMutableTreeNode> listaHijos = new Lista<>();
+    Enumeration<?> hijosEnum = nodoDirectorio.children();
     
-    while (hijos.hasMoreElements()) {
-        DefaultMutableTreeNode hijo = (DefaultMutableTreeNode) hijos.nextElement();
+    while (hijosEnum.hasMoreElements()) {
+        DefaultMutableTreeNode hijo = (DefaultMutableTreeNode) hijosEnum.nextElement();
+        listaHijos.insertarAlFinal(hijo);
+    }
+
+    // 2. Convertir la Lista a array para iterar
+    DefaultMutableTreeNode[] hijos = listaHijos.toArray(new DefaultMutableTreeNode[0]);
+
+    // 3. Procesar cada hijo
+    for (DefaultMutableTreeNode hijo : hijos) {
         Archivo elementoHijo = (Archivo) hijo.getUserObject();
         
         if (elementoHijo.tipo == Archivo.Tipo.DIRECTORIO) {
-            // Eliminar subdirectorios recursivamente
-            eliminarDirectorioRecursivo(hijo);
+            eliminarDirectorioRecursivo(hijo); // Llamada recursiva para subdirectorios
         } else {
-            // Eliminar archivo: liberar bloques y tabla
+            // Liberar bloques y eliminar de la tabla si es archivo
             sd.liberarBloques(elementoHijo);
             eliminarDeTabla(elementoHijo.nombre);
         }
         
-        // Eliminar nodo hijo del árbol
+        // Eliminar el nodo hijo del árbol
         modelo.removeNodeFromParent(hijo);
     }
 }
