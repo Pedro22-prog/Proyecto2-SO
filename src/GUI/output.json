@@ -5,7 +5,7 @@
     "hijos": {
       "pFirst": {
         "tInfo": {
-          "nombre": "mariavictoriaestabuena",
+          "nombre": "martin",
           "esDirectorio": false,
           "hijos": {
             "id": 0
@@ -24,7 +24,7 @@
             "hijos": {
               "pFirst": {
                 "tInfo": {
-                  "nombre": "mariavictoriaespreciosa",
+                  "nombre": "garcia",
                   "esDirectorio": false,
                   "hijos": {
                     "id": 0
@@ -43,7 +43,7 @@
           },
           "pNext": {
             "tInfo": {
-              "nombre": "lequierometerelpipiamariavictoria",
+              "nombre": "mario",
               "esDirectorio": false,
               "hijos": {
                 "id": 0
@@ -517,6 +517,6 @@
     },
     "id": 0
   },
-  "log": "[2025-03-20 13:03:29] ADMIN: Creado: mariavictoriaestabuena\n[2025-03-20 13:03:52] ADMIN: Creado: mariavictoriaespreciosa\n[2025-03-20 13:14:42] Sistema: Estado cargado correctamente\n[2025-03-20 13:16:49] Error: Espacio insuficiente\n[2025-03-20 13:16:54] ADMIN: Creado: lequierometerelpipiamariavictoria\n",
+  "log": "[2025-03-20 13:03:29] ADMIN: Creado: martin\n[2025-03-20 13:03:52] ADMIN: Creado: garcia\n[2025-03-20 13:14:42] Sistema: Estado cargado correctamente\n[2025-03-20 13:16:49] Error: Espacio insuficiente\n[2025-03-20 13:16:54] ADMIN: Creado: mario\n",
   "modo": "Administrador"
 }
