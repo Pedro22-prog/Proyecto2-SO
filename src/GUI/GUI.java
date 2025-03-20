@@ -299,72 +299,66 @@ private void actualizarSDVisual() {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-        if (nodoSeleccionado != null) {
+    if (nodoSeleccionado != null) {
         Object userObject = nodoSeleccionado.getUserObject();
         
-        // Caso 1: Es un archivo
         if (userObject instanceof Archivo) {
-            Archivo archivo = (Archivo) userObject;
+            Archivo elemento = (Archivo) userObject;
             
-            // Solo liberar bloques si es un archivo (no directorio)
-            if (archivo.tipo == Archivo.Tipo.ARCHIVO) {
-                sd.liberarBloques(archivo); // Liberar bloques en el SD
+            // Caso 1: Es un archivo
+            if (elemento.tipo == Archivo.Tipo.ARCHIVO) {
+                // Liberar bloques en el SD
+                sd.liberarBloques(elemento);
                 
-                // Eliminar de la tabla (solo archivos están en la tabla)
-                for (int i = 0; i < tableModel.getRowCount(); i++) {
-                    if (tableModel.getValueAt(i, 0).equals(archivo.nombre)) {
-                        tableModel.removeRow(i);
-                        break;
-                    }
-                }
+                // Eliminar de la tabla
+                eliminarDeTabla(elemento.nombre);
+                
+                // Eliminar del árbol
+                modelo.removeNodeFromParent(nodoSeleccionado);
+                agregarMensaje("Eliminado", elemento.nombre);
+            }
+            // Caso 2: Es un directorio
+            else if (elemento.tipo == Archivo.Tipo.DIRECTORIO) {
+                // Eliminar recursivamente el contenido del directorio
+                eliminarDirectorioRecursivo(nodoSeleccionado);
+                
+                // Eliminar el directorio padre del árbol
+                modelo.removeNodeFromParent(nodoSeleccionado);
+                agregarMensaje("Eliminado", elemento.nombre);
             }
             
-            // Eliminar del árbol (tanto archivos como directorios)
-            modelo.removeNodeFromParent(nodoSeleccionado);
-            actualizarSDVisual(); // Actualizar vista del SD
-            agregarMensaje("Eliminado", archivo.nombre);
-        }
-        
-        // Caso 2: Es un directorio (eliminar recursivamente)
-        else if (userObject instanceof Archivo && ((Archivo) userObject).tipo == Archivo.Tipo.DIRECTORIO) {
-            eliminarDirectorioRecursivo(nodoSeleccionado); // Función recursiva
-            modelo.removeNodeFromParent(nodoSeleccionado); // Eliminar el directorio padre
-            actualizarSDVisual();
-            agregarMensaje("Eliminado", ((Archivo) userObject).nombre);
+            actualizarSDVisual(); // Actualizar la vista del SD
         }
     }
-    
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     // Método auxiliar para eliminar directorios y su contenido
-private void eliminarDirectorioRecursivo(DefaultMutableTreeNode nodo) {
-    Enumeration<?> hijos = nodo.children();
+private void eliminarDirectorioRecursivo(DefaultMutableTreeNode nodoDirectorio) {
+    Enumeration<?> hijos = nodoDirectorio.children();
+    
     while (hijos.hasMoreElements()) {
         DefaultMutableTreeNode hijo = (DefaultMutableTreeNode) hijos.nextElement();
-        Archivo elemento = (Archivo) hijo.getUserObject();
+        Archivo elementoHijo = (Archivo) hijo.getUserObject();
         
-        // Si es un archivo, liberar bloques y eliminar de la tabla
-        if (elemento.tipo == Archivo.Tipo.ARCHIVO) {
-            sd.liberarBloques(elemento);
-            eliminarDeTabla(elemento.nombre);
-        }
-        
-        // Si es subdirectorio, eliminar recursivamente
-        else if (elemento.tipo == Archivo.Tipo.DIRECTORIO) {
+        if (elementoHijo.tipo == Archivo.Tipo.DIRECTORIO) {
+            // Eliminar subdirectorios recursivamente
             eliminarDirectorioRecursivo(hijo);
+        } else {
+            // Eliminar archivo: liberar bloques y tabla
+            sd.liberarBloques(elementoHijo);
+            eliminarDeTabla(elementoHijo.nombre);
         }
         
-        // Eliminar nodo del árbol
+        // Eliminar nodo hijo del árbol
         modelo.removeNodeFromParent(hijo);
     }
 }
 
 // Método para eliminar de la tabla
 private void eliminarDeTabla(String nombreArchivo) {
-    for (int i = 0; i < tableModel.getRowCount(); i++) {
+    for (int i = tableModel.getRowCount() - 1; i >= 0; i--) {
         if (tableModel.getValueAt(i, 0).equals(nombreArchivo)) {
             tableModel.removeRow(i);
-            break;
         }
     }
 }
