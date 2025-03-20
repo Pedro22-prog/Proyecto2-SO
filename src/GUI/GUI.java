@@ -19,6 +19,9 @@ import javax.swing.BorderFactory;
 import javax.swing.border.Border;
 import java.awt.GridLayout;
 import java.awt.Dimension;
+import java.util.Enumeration;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -29,6 +32,7 @@ public class GUI extends javax.swing.JFrame {
     private DefaultMutableTreeNode nodoSeleccionado;
     private DefaultTableModel tableModel;
     private SD sd = new SD();
+    private JButton btnCrearDirectorio;
     // En la clase GUI:
 private JPanel panelSD; // Reemplazar el JTextArea SD
 
@@ -55,13 +59,47 @@ private void actualizarSDVisual() {
     panelSD.revalidate();
     panelSD.repaint(); // Forzar repintado
 }
+
+    private void crearDirectorio() {
+    if (nodoSeleccionado == null) {
+        agregarMensaje("Error", "Seleccione un directorio padre");
+        return;
+    }
+
+    // Obtener el objeto Archivo del nodo seleccionado
+    Archivo nodoPadre = (Archivo) nodoSeleccionado.getUserObject();
+
+    // Validar que el nodo padre sea un directorio
+    if (nodoPadre.tipo != Archivo.Tipo.DIRECTORIO) {
+        agregarMensaje("Error", "No se pueden crear directorios dentro de archivos");
+        return;
+    }
+
+    String nombre = JOptionPane.showInputDialog("Nombre del directorio:");
+    if (nombre != null && !nombre.isEmpty()) {
+        Archivo nuevoDir = new Archivo(nombre, Archivo.Tipo.DIRECTORIO);
+        DefaultMutableTreeNode nodo = new DefaultMutableTreeNode(nuevoDir);
+        modelo.insertNodeInto(nodo, nodoSeleccionado, nodoSeleccionado.getChildCount());
+    }
+
+}
+
+// Modificar el método de creación de archivos:
+
+    
+    // Resto del código original para crear archivos...
+
     /**
      * Creates new form GUI
      */
     public GUI() {
         initComponents();
-        modelo = new DefaultTreeModel(new DefaultMutableTreeNode("raiz"));
-        arbol.setModel(modelo);
+        DefaultMutableTreeNode raiz = new DefaultMutableTreeNode(
+        new Archivo("Raiz", Archivo.Tipo.DIRECTORIO) // Directorio raíz
+    );
+    
+    modelo = new DefaultTreeModel(raiz);
+    arbol.setModel(modelo);
         showMovements.setText("");
         tableModel = new DefaultTableModel();
         tableModel.addColumn("Nombre del archivo");
@@ -72,6 +110,9 @@ private void actualizarSDVisual() {
         jTable1.getColumnModel().getColumn(3).setCellRenderer(new ColorRenderer());
         this.setLocationRelativeTo(null);
         initSDVisual();
+        btnCrearDirectorio = new JButton("Nuevo directorio");
+    btnCrearDirectorio.addActionListener(e -> crearDirectorio());
+    getContentPane().add(btnCrearDirectorio, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 250, -1, -1));
     }   
 
     /**
@@ -196,6 +237,10 @@ private void actualizarSDVisual() {
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         // TODO add your handling code here:
+        if (nodoSeleccionado == null || ((Archivo)nodoSeleccionado.getUserObject()).tipo != Archivo.Tipo.DIRECTORIO) {
+        agregarMensaje("Error", "Seleccione un directorio padre");
+        return;
+    }
         String nombreArchivo = this.selectNodo.getText();
         int bloquesNecesarios = sizefile.getValue(); // Obtener valor del slider
         
@@ -247,7 +292,7 @@ private void actualizarSDVisual() {
         Object userObject = nodoSeleccionado.getUserObject();
         if (userObject instanceof Archivo) {
             Archivo archivo = (Archivo) userObject;
-            selectNodo.setText(archivo.nombre); // Mostrar el nombre en el campo de texto
+            selectNodo.setText(archivo.nombre);
         }
     }
     }//GEN-LAST:event_arbolValueChanged
@@ -256,31 +301,73 @@ private void actualizarSDVisual() {
         // TODO add your handling code here:
         if (nodoSeleccionado != null) {
         Object userObject = nodoSeleccionado.getUserObject();
+        
+        // Caso 1: Es un archivo
         if (userObject instanceof Archivo) {
             Archivo archivo = (Archivo) userObject;
             
-            // Liberar bloques en la SD
-            sd.liberarBloques(archivo); // <-- Paso crítico
-            
-            // Eliminar de la tabla
-            for (int i = 0; i < tableModel.getRowCount(); i++) {
-                if (tableModel.getValueAt(i, 0).equals(archivo.nombre)) {
-                    tableModel.removeRow(i);
-                    break;
+            // Solo liberar bloques si es un archivo (no directorio)
+            if (archivo.tipo == Archivo.Tipo.ARCHIVO) {
+                sd.liberarBloques(archivo); // Liberar bloques en el SD
+                
+                // Eliminar de la tabla (solo archivos están en la tabla)
+                for (int i = 0; i < tableModel.getRowCount(); i++) {
+                    if (tableModel.getValueAt(i, 0).equals(archivo.nombre)) {
+                        tableModel.removeRow(i);
+                        break;
+                    }
                 }
             }
             
-            // Eliminar del árbol
+            // Eliminar del árbol (tanto archivos como directorios)
             modelo.removeNodeFromParent(nodoSeleccionado);
-            
-            // Actualizar visualización del SD
-            actualizarSDVisual(); // <-- Forzar actualización
+            actualizarSDVisual(); // Actualizar vista del SD
             agregarMensaje("Eliminado", archivo.nombre);
+        }
+        
+        // Caso 2: Es un directorio (eliminar recursivamente)
+        else if (userObject instanceof Archivo && ((Archivo) userObject).tipo == Archivo.Tipo.DIRECTORIO) {
+            eliminarDirectorioRecursivo(nodoSeleccionado); // Función recursiva
+            modelo.removeNodeFromParent(nodoSeleccionado); // Eliminar el directorio padre
+            actualizarSDVisual();
+            agregarMensaje("Eliminado", ((Archivo) userObject).nombre);
         }
     }
     
     }//GEN-LAST:event_btnDeleteActionPerformed
 
+    // Método auxiliar para eliminar directorios y su contenido
+private void eliminarDirectorioRecursivo(DefaultMutableTreeNode nodo) {
+    Enumeration<?> hijos = nodo.children();
+    while (hijos.hasMoreElements()) {
+        DefaultMutableTreeNode hijo = (DefaultMutableTreeNode) hijos.nextElement();
+        Archivo elemento = (Archivo) hijo.getUserObject();
+        
+        // Si es un archivo, liberar bloques y eliminar de la tabla
+        if (elemento.tipo == Archivo.Tipo.ARCHIVO) {
+            sd.liberarBloques(elemento);
+            eliminarDeTabla(elemento.nombre);
+        }
+        
+        // Si es subdirectorio, eliminar recursivamente
+        else if (elemento.tipo == Archivo.Tipo.DIRECTORIO) {
+            eliminarDirectorioRecursivo(hijo);
+        }
+        
+        // Eliminar nodo del árbol
+        modelo.removeNodeFromParent(hijo);
+    }
+}
+
+// Método para eliminar de la tabla
+private void eliminarDeTabla(String nombreArchivo) {
+    for (int i = 0; i < tableModel.getRowCount(); i++) {
+        if (tableModel.getValueAt(i, 0).equals(nombreArchivo)) {
+            tableModel.removeRow(i);
+            break;
+        }
+    }
+}
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
         if (nodoSeleccionado != null) {

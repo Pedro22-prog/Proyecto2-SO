@@ -26,6 +26,7 @@ public class SD {
 
     // Método para asignar bloques a un archivo (asignación encadenada)
     public boolean asignarBloques(Archivo archivo, int bloquesNecesarios) {
+        if (archivo.tipo != Archivo.Tipo.ARCHIVO) return false;
         if (bloquesDisponibles() < bloquesNecesarios) return false;
 
         int bloquesAsignados = 0;
@@ -53,6 +54,7 @@ public class SD {
 
     // Método para liberar bloques de un archivo
     public void liberarBloques(Archivo archivo) {
+        if (archivo.tipo != Archivo.Tipo.ARCHIVO) return;
     Nodo<Integer> nodo = archivo.listaBloques.getpFirst();
     while (nodo != null) {
         int idBloque = nodo.gettInfo();
