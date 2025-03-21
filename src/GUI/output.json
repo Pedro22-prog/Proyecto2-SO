@@ -5,56 +5,66 @@
     "hijos": {
       "pFirst": {
         "tInfo": {
-          "nombre": "martin",
+          "nombre": "ooop",
           "esDirectorio": false,
           "hijos": {
             "id": 0
           },
           "color": {
-            "r": 96,
-            "g": 110,
-            "b": 11
+            "r": 18,
+            "g": 32,
+            "b": 223
           },
-          "tamano": 17
+          "tamano": 14
         },
         "pNext": {
           "tInfo": {
-            "nombre": "kfkf",
+            "nombre": "pppp",
             "esDirectorio": true,
             "hijos": {
               "pFirst": {
                 "tInfo": {
-                  "nombre": "garcia",
+                  "nombre": "op",
                   "esDirectorio": false,
                   "hijos": {
                     "id": 0
                   },
                   "color": {
-                    "r": 221,
-                    "g": 110,
-                    "b": 104
+                    "r": 179,
+                    "g": 115,
+                    "b": 174
                   },
-                  "tamano": 12
+                  "tamano": 14
+                },
+                "pNext": {
+                  "tInfo": {
+                    "nombre": "uju",
+                    "esDirectorio": true,
+                    "hijos": {
+                      "pFirst": {
+                        "tInfo": {
+                          "nombre": "kkk",
+                          "esDirectorio": false,
+                          "hijos": {
+                            "id": 0
+                          },
+                          "color": {
+                            "r": 58,
+                            "g": 19,
+                            "b": 63
+                          },
+                          "tamano": 4
+                        }
+                      },
+                      "id": 0
+                    },
+                    "tamano": 0
+                  }
                 }
               },
               "id": 0
             },
             "tamano": 0
-          },
-          "pNext": {
-            "tInfo": {
-              "nombre": "mario",
-              "esDirectorio": false,
-              "hijos": {
-                "id": 0
-              },
-              "color": {
-                "r": 114,
-                "g": 23,
-                "b": 48
-              },
-              "tamano": 2
-            }
           }
         }
       },
@@ -68,9 +78,9 @@
         "id": 0,
         "ocupado": true,
         "color": {
-          "r": 96,
-          "g": 110,
-          "b": 11
+          "r": 18,
+          "g": 32,
+          "b": 223
         },
         "siguienteId": 1
       },
@@ -79,9 +89,9 @@
           "id": 1,
           "ocupado": true,
           "color": {
-            "r": 96,
-            "g": 110,
-            "b": 11
+            "r": 18,
+            "g": 32,
+            "b": 223
           },
           "siguienteId": 2
         },
@@ -90,9 +100,9 @@
             "id": 2,
             "ocupado": true,
             "color": {
-              "r": 96,
-              "g": 110,
-              "b": 11
+              "r": 18,
+              "g": 32,
+              "b": 223
             },
             "siguienteId": 3
           },
@@ -101,9 +111,9 @@
               "id": 3,
               "ocupado": true,
               "color": {
-                "r": 96,
-                "g": 110,
-                "b": 11
+                "r": 18,
+                "g": 32,
+                "b": 223
               },
               "siguienteId": 4
             },
@@ -112,9 +122,9 @@
                 "id": 4,
                 "ocupado": true,
                 "color": {
-                  "r": 96,
-                  "g": 110,
-                  "b": 11
+                  "r": 18,
+                  "g": 32,
+                  "b": 223
                 },
                 "siguienteId": 5
               },
@@ -123,9 +133,9 @@
                   "id": 5,
                   "ocupado": true,
                   "color": {
-                    "r": 96,
-                    "g": 110,
-                    "b": 11
+                    "r": 18,
+                    "g": 32,
+                    "b": 223
                   },
                   "siguienteId": 6
                 },
@@ -134,9 +144,9 @@
                     "id": 6,
                     "ocupado": true,
                     "color": {
-                      "r": 96,
-                      "g": 110,
-                      "b": 11
+                      "r": 18,
+                      "g": 32,
+                      "b": 223
                     },
                     "siguienteId": 7
                   },
@@ -145,9 +155,9 @@
                       "id": 7,
                       "ocupado": true,
                       "color": {
-                        "r": 96,
-                        "g": 110,
-                        "b": 11
+                        "r": 18,
+                        "g": 32,
+                        "b": 223
                       },
                       "siguienteId": 8
                     },
@@ -156,9 +166,9 @@
                         "id": 8,
                         "ocupado": true,
                         "color": {
-                          "r": 96,
-                          "g": 110,
-                          "b": 11
+                          "r": 18,
+                          "g": 32,
+                          "b": 223
                         },
                         "siguienteId": 9
                       },
@@ -167,9 +177,9 @@
                           "id": 9,
                           "ocupado": true,
                           "color": {
-                            "r": 96,
-                            "g": 110,
-                            "b": 11
+                            "r": 18,
+                            "g": 32,
+                            "b": 223
                           },
                           "siguienteId": 10
                         },
@@ -178,9 +188,9 @@
                             "id": 10,
                             "ocupado": true,
                             "color": {
-                              "r": 96,
-                              "g": 110,
-                              "b": 11
+                              "r": 18,
+                              "g": 32,
+                              "b": 223
                             },
                             "siguienteId": 11
                           },
@@ -189,9 +199,9 @@
                               "id": 11,
                               "ocupado": true,
                               "color": {
-                                "r": 96,
-                                "g": 110,
-                                "b": 11
+                                "r": 18,
+                                "g": 32,
+                                "b": 223
                               },
                               "siguienteId": 12
                             },
@@ -200,9 +210,9 @@
                                 "id": 12,
                                 "ocupado": true,
                                 "color": {
-                                  "r": 96,
-                                  "g": 110,
-                                  "b": 11
+                                  "r": 18,
+                                  "g": 32,
+                                  "b": 223
                                 },
                                 "siguienteId": 13
                               },
@@ -211,20 +221,19 @@
                                   "id": 13,
                                   "ocupado": true,
                                   "color": {
-                                    "r": 96,
-                                    "g": 110,
-                                    "b": 11
-                                  },
-                                  "siguienteId": 14
+                                    "r": 18,
+                                    "g": 32,
+                                    "b": 223
+                                  }
                                 },
                                 "pNext": {
                                   "tInfo": {
                                     "id": 14,
                                     "ocupado": true,
                                     "color": {
-                                      "r": 96,
-                                      "g": 110,
-                                      "b": 11
+                                      "r": 179,
+                                      "g": 115,
+                                      "b": 174
                                     },
                                     "siguienteId": 15
                                   },
@@ -233,9 +242,9 @@
                                       "id": 15,
                                       "ocupado": true,
                                       "color": {
-                                        "r": 96,
-                                        "g": 110,
-                                        "b": 11
+                                        "r": 179,
+                                        "g": 115,
+                                        "b": 174
                                       },
                                       "siguienteId": 16
                                     },
@@ -244,19 +253,20 @@
                                         "id": 16,
                                         "ocupado": true,
                                         "color": {
-                                          "r": 96,
-                                          "g": 110,
-                                          "b": 11
-                                        }
+                                          "r": 179,
+                                          "g": 115,
+                                          "b": 174
+                                        },
+                                        "siguienteId": 17
                                       },
                                       "pNext": {
                                         "tInfo": {
                                           "id": 17,
                                           "ocupado": true,
                                           "color": {
-                                            "r": 221,
-                                            "g": 110,
-                                            "b": 104
+                                            "r": 179,
+                                            "g": 115,
+                                            "b": 174
                                           },
                                           "siguienteId": 18
                                         },
@@ -265,9 +275,9 @@
                                             "id": 18,
                                             "ocupado": true,
                                             "color": {
-                                              "r": 221,
-                                              "g": 110,
-                                              "b": 104
+                                              "r": 179,
+                                              "g": 115,
+                                              "b": 174
                                             },
                                             "siguienteId": 19
                                           },
@@ -276,9 +286,9 @@
                                               "id": 19,
                                               "ocupado": true,
                                               "color": {
-                                                "r": 221,
-                                                "g": 110,
-                                                "b": 104
+                                                "r": 179,
+                                                "g": 115,
+                                                "b": 174
                                               },
                                               "siguienteId": 20
                                             },
@@ -287,9 +297,9 @@
                                                 "id": 20,
                                                 "ocupado": true,
                                                 "color": {
-                                                  "r": 221,
-                                                  "g": 110,
-                                                  "b": 104
+                                                  "r": 179,
+                                                  "g": 115,
+                                                  "b": 174
                                                 },
                                                 "siguienteId": 21
                                               },
@@ -298,9 +308,9 @@
                                                   "id": 21,
                                                   "ocupado": true,
                                                   "color": {
-                                                    "r": 221,
-                                                    "g": 110,
-                                                    "b": 104
+                                                    "r": 179,
+                                                    "g": 115,
+                                                    "b": 174
                                                   },
                                                   "siguienteId": 22
                                                 },
@@ -309,9 +319,9 @@
                                                     "id": 22,
                                                     "ocupado": true,
                                                     "color": {
-                                                      "r": 221,
-                                                      "g": 110,
-                                                      "b": 104
+                                                      "r": 179,
+                                                      "g": 115,
+                                                      "b": 174
                                                     },
                                                     "siguienteId": 23
                                                   },
@@ -320,9 +330,9 @@
                                                       "id": 23,
                                                       "ocupado": true,
                                                       "color": {
-                                                        "r": 221,
-                                                        "g": 110,
-                                                        "b": 104
+                                                        "r": 179,
+                                                        "g": 115,
+                                                        "b": 174
                                                       },
                                                       "siguienteId": 24
                                                     },
@@ -331,9 +341,9 @@
                                                         "id": 24,
                                                         "ocupado": true,
                                                         "color": {
-                                                          "r": 221,
-                                                          "g": 110,
-                                                          "b": 104
+                                                          "r": 179,
+                                                          "g": 115,
+                                                          "b": 174
                                                         },
                                                         "siguienteId": 25
                                                       },
@@ -342,9 +352,9 @@
                                                           "id": 25,
                                                           "ocupado": true,
                                                           "color": {
-                                                            "r": 221,
-                                                            "g": 110,
-                                                            "b": 104
+                                                            "r": 179,
+                                                            "g": 115,
+                                                            "b": 174
                                                           },
                                                           "siguienteId": 26
                                                         },
@@ -353,9 +363,9 @@
                                                             "id": 26,
                                                             "ocupado": true,
                                                             "color": {
-                                                              "r": 221,
-                                                              "g": 110,
-                                                              "b": 104
+                                                              "r": 179,
+                                                              "g": 115,
+                                                              "b": 174
                                                             },
                                                             "siguienteId": 27
                                                           },
@@ -364,30 +374,30 @@
                                                               "id": 27,
                                                               "ocupado": true,
                                                               "color": {
-                                                                "r": 221,
-                                                                "g": 110,
-                                                                "b": 104
-                                                              },
-                                                              "siguienteId": 28
+                                                                "r": 179,
+                                                                "g": 115,
+                                                                "b": 174
+                                                              }
                                                             },
                                                             "pNext": {
                                                               "tInfo": {
                                                                 "id": 28,
                                                                 "ocupado": true,
                                                                 "color": {
-                                                                  "r": 221,
-                                                                  "g": 110,
-                                                                  "b": 104
-                                                                }
+                                                                  "r": 58,
+                                                                  "g": 19,
+                                                                  "b": 63
+                                                                },
+                                                                "siguienteId": 29
                                                               },
                                                               "pNext": {
                                                                 "tInfo": {
                                                                   "id": 29,
                                                                   "ocupado": true,
                                                                   "color": {
-                                                                    "r": 114,
-                                                                    "g": 23,
-                                                                    "b": 48
+                                                                    "r": 58,
+                                                                    "g": 19,
+                                                                    "b": 63
                                                                   },
                                                                   "siguienteId": 30
                                                                 },
@@ -396,19 +406,20 @@
                                                                     "id": 30,
                                                                     "ocupado": true,
                                                                     "color": {
-                                                                      "r": 114,
-                                                                      "g": 23,
-                                                                      "b": 48
-                                                                    }
+                                                                      "r": 58,
+                                                                      "g": 19,
+                                                                      "b": 63
+                                                                    },
+                                                                    "siguienteId": 31
                                                                   },
                                                                   "pNext": {
                                                                     "tInfo": {
                                                                       "id": 31,
-                                                                      "ocupado": false,
+                                                                      "ocupado": true,
                                                                       "color": {
-                                                                        "r": 192,
-                                                                        "g": 192,
-                                                                        "b": 192
+                                                                        "r": 58,
+                                                                        "g": 19,
+                                                                        "b": 63
                                                                       }
                                                                     },
                                                                     "pNext": {
@@ -481,35 +492,35 @@
   "tablaArchivos": {
     "pFirst": {
       "tInfo": {
-        "nombre": "mariavictoriaestabuena",
-        "bloques": 17,
+        "nombre": "ooop",
+        "bloques": 14,
         "primerBloque": "0",
         "color": {
-          "r": 96,
-          "g": 110,
-          "b": 11
+          "r": 18,
+          "g": 32,
+          "b": 223
         }
       },
       "pNext": {
         "tInfo": {
-          "nombre": "mariavictoriaespreciosa",
-          "bloques": 12,
-          "primerBloque": "17",
+          "nombre": "op",
+          "bloques": 14,
+          "primerBloque": "14",
           "color": {
-            "r": 221,
-            "g": 110,
-            "b": 104
+            "r": 179,
+            "g": 115,
+            "b": 174
           }
         },
         "pNext": {
           "tInfo": {
-            "nombre": "lequierometerelpipiamariavictoria",
-            "bloques": 2,
-            "primerBloque": "29",
+            "nombre": "kkk",
+            "bloques": 4,
+            "primerBloque": "28",
             "color": {
-              "r": 114,
-              "g": 23,
-              "b": 48
+              "r": 58,
+              "g": 19,
+              "b": 63
             }
           }
         }
@@ -517,6 +528,6 @@
     },
     "id": 0
   },
-  "log": "[2025-03-20 13:03:29] ADMIN: Creado: martin\n[2025-03-20 13:03:52] ADMIN: Creado: garcia\n[2025-03-20 13:14:42] Sistema: Estado cargado correctamente\n[2025-03-20 13:16:49] Error: Espacio insuficiente\n[2025-03-20 13:16:54] ADMIN: Creado: mario\n",
+  "log": "[2025-03-20 22:05:11] ADMIN: Creado: ttuuu\n[2025-03-20 22:05:39] Sistema: Estado cargado correctamente\n[2025-03-20 22:05:43] ADMIN: Eliminado: ttuuu\n[2025-03-20 22:06:02] ADMIN: Creado: ooop\n[2025-03-20 22:06:20] ADMIN: Creado: op\n[2025-03-20 22:06:47] Error: Seleccione un directorio padre\n[2025-03-20 22:06:59] ADMIN: Creado: kkk\n[2025-03-20 22:07:09] Error: Seleccione un directorio padre\n",
   "modo": "Administrador"
 }

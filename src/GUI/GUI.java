@@ -5,33 +5,33 @@
 package GUI;
 
 import EDD.Lista;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import javax.swing.JFileChooser;
-import java.io.*;
-import MainClasses.ConfiguracionEstado;
-import MainClasses.Archivo;
-import MainClasses.Block;
-import MainClasses.SD;
-import com.google.gson.TypeAdapter;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonToken;
-import com.google.gson.stream.JsonWriter;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import java.awt.Color;
-// En la sección de imports de GUI.java
-import javax.swing.JPanel;
-import javax.swing.BorderFactory;
-import javax.swing.border.Border;
-import java.awt.GridLayout;
-import java.awt.Dimension;
-import java.util.Enumeration;
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
+ import com.google.gson.Gson;
+ import com.google.gson.GsonBuilder;
+ import javax.swing.JFileChooser;
+ import java.io.*;
+ import MainClasses.ConfiguracionEstado;
+ import MainClasses.Archivo;
+ import MainClasses.Block;
+ import MainClasses.SD;
+ import com.google.gson.TypeAdapter;
+ import com.google.gson.stream.JsonReader;
+ import com.google.gson.stream.JsonToken;
+ import com.google.gson.stream.JsonWriter;
+ import java.time.LocalDateTime;
+ import java.time.format.DateTimeFormatter;
+ import javax.swing.table.DefaultTableModel;
+ import javax.swing.tree.DefaultMutableTreeNode;
+ import javax.swing.tree.DefaultTreeModel;
+ import java.awt.Color;
+ // En la sección de imports de GUI.java
+ import javax.swing.JPanel;
+ import javax.swing.BorderFactory;
+ import javax.swing.border.Border;
+ import java.awt.GridLayout;
+ import java.awt.Dimension;
+ import java.util.Enumeration;
+ import javax.swing.JButton;
+ import javax.swing.JOptionPane;
 
 /**
  *
@@ -54,7 +54,39 @@ public class GUI extends javax.swing.JFrame {
         jScrollPane4.setViewportView(panelSD);
         actualizarSDVisual();
     }
-
+    private void reconstruirListasBloques(ConfiguracionEstado estado) {
+    DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+    Enumeration<?> enumeration = raiz.depthFirstEnumeration();
+    
+    while (enumeration.hasMoreElements()) {
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode) enumeration.nextElement();
+        Object userObject = node.getUserObject();
+        
+        if (userObject instanceof Archivo) {
+            Archivo archivo = (Archivo) userObject;
+            
+            if (archivo.tipo == Archivo.Tipo.ARCHIVO) {
+                // Buscar la fila correspondiente en la tabla
+                for (ConfiguracionEstado.FilaTabla fila : estado.tablaArchivos.toArray(new ConfiguracionEstado.FilaTabla[0])) {
+                    if (fila.nombre.equals(archivo.nombre)) {
+                        // Obtener el ID del primer bloque
+                        int primerBloqueId = Integer.parseInt(fila.primerBloque);
+                        
+                        // Recorrer la cadena de bloques para reconstruir listaBloques
+                        archivo.listaBloques = new Lista<>();
+                        Block bloqueActual = sd.getBloques()[primerBloqueId];
+                        
+                        while (bloqueActual != null) {
+                            archivo.listaBloques.insertarAlFinal(bloqueActual.id);
+                            bloqueActual = bloqueActual.siguiente;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}
 // Método para actualizar la visualización
     private void actualizarSDVisual() {
         panelSD.removeAll();
@@ -382,6 +414,8 @@ private void aplicarEstado(ConfiguracionEstado estado) {
     for (ConfiguracionEstado.FilaTabla ft : estado.tablaArchivos.toArray(new ConfiguracionEstado.FilaTabla[0])) {
         tableModel.addRow(new Object[]{ft.nombre, ft.bloques, ft.primerBloque, ft.color});
     }
+    
+    reconstruirListasBloques(estado);
     
     // Cargar log y modo
     showMovements.setText(estado.log);
